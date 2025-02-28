@@ -1,4 +1,428 @@
-<？？？？>
-  <body>
-    <p/？>
-  </body>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>先锋艺术网页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+            font-family: 'Futura', sans-serif;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: minmax(100px, auto);
+            gap: 15px;
+            padding: 20px;
+            height: 100vh;
+        }
+        
+        .header {
+            grid-column: 1 / 13;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            transform: skew(-5deg);
+            background: linear-gradient(90deg, #ff0055, #00ff99, #ff0055);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: text-shift 8s infinite alternate;
+        }
+        
+        .geometric-shape {
+            position: absolute;
+            z-index: -1;
+        }
+        
+        .shape1 {
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 0, 85, 0.7);
+            transform: rotate(45deg);
+            right: -50px;
+            top: -80px;
+            animation: rotate 20s linear infinite;
+        }
+        
+        .shape2 {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(0, 255, 153, 0.5);
+            left: 30%;
+            top: -30px;
+            animation: float 15s ease-in-out infinite;
+        }
+        
+        .main-content {
+            grid-column: 1 / 9;
+            grid-row: 2 / 5;
+            background-color: #111;
+            padding: 30px;
+            border-left: 5px solid #ff0055;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .main-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.1) 10px,
+                rgba(255, 255, 255, 0.05) 10px,
+                rgba(255, 255, 255, 0.05) 20px
+            );
+            z-index: -1;
+        }
+        
+        .main-content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            mix-blend-mode: difference;
+        }
+        
+        .dada-collage {
+            grid-column: 9 / 13;
+            grid-row: 2 / 4;
+            background-color: #222;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dada-element {
+            width: 80px;
+            height: 80px;
+            background-color: #ff0055;
+            position: absolute;
+            transition: transform 0.5s ease;
+        }
+        
+        .dada-element:nth-child(1) {
+            top: 20%;
+            left: 30%;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            background-color: #00ff99;
+            animation: spin 10s linear infinite;
+        }
+        
+        .dada-element:nth-child(2) {
+            bottom: 10%;
+            right: 20%;
+            border-radius: 50% 0 50% 0;
+            background-color: #ff0055;
+            animation: pulse 5s ease-in-out infinite;
+        }
+        
+        .dada-element:nth-child(3) {
+            top: 60%;
+            left: 10%;
+            width: 40px;
+            height: 100px;
+            background-color: #ffcc00;
+            transform: rotate(30deg);
+            animation: wobble 7s ease-in-out infinite;
+        }
+        
+        .constructivist-section {
+            grid-column: 1 / 13;
+            grid-row: 5 / 7;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #151515;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .constructivist-box {
+            width: 200px;
+            height: 200px;
+            background-color: #222;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: perspective(800px) rotateY(20deg);
+            transition: transform 0.5s ease;
+            box-shadow: 5px 5px 0 #ff0055;
+        }
+        
+        .constructivist-box:hover {
+            transform: perspective(800px) rotateY(-20deg);
+        }
+        
+        .constructivist-box::before {
+            content: "";
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border: 2px solid #ffcc00;
+            z-index: 1;
+        }
+        
+        .constructivist-box span {
+            color: #f0f0f0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transform: rotate(-5deg);
+        }
+        
+        .interactive-panel {
+            grid-column: 9 / 13;
+            grid-row: 4 / 5;
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+        
+        .interactive-panel::after {
+            content: "CLICK";
+            position: absolute;
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 3rem;
+            font-weight: bold;
+            pointer-events: none;
+        }
+        
+        .glitch-text {
+            font-size: 2rem;
+            font-weight: bold;
+            position: relative;
+            color: #f0f0f0;
+            animation: glitch 1s infinite;
+        }
+        
+        .futurist-footer {
+            grid-column: 1 / 13;
+            grid-row: 7 / 8;
+            background-color: #0a0a0a;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #ff0055;
+        }
+        
+        .futurist-footer p {
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            font-style: italic;
+        }
+        
+        .futurist-footer .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.2) rotate(10deg);
+            background-color: #ff0055;
+        }
+        
+        @keyframes text-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(45deg);
+            }
+            to {
+                transform: rotate(405deg);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+        
+        @keyframes wobble {
+            0%, 100% {
+                transform: rotate(30deg) translateX(0);
+            }
+            25% {
+                transform: rotate(25deg) translateX(10px);
+            }
+            75% {
+                transform: rotate(35deg) translateX(-10px);
+            }
+        }
+        
+        @keyframes glitch {
+            0%, 100% {
+                transform: translate(0);
+                text-shadow: -2px 0 #ff0055, 2px 0 #00ff99;
+            }
+            33% {
+                transform: translate(-2px, 1px);
+                text-shadow: 2px 0 #ff0055, -2px 0 #00ff99;
+            }
+            66% {
+                transform: translate(2px, -1px);
+                text-shadow: -2px 0 #00ff99, 2px 0 #ff0055;
+            }
+        }
+        
+        /* 媒体查询 - 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header, .main-content, .dada-collage, 
+            .constructivist-section, .interactive-panel, .futurist-footer {
+                grid-column: 1;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .constructivist-section {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>先锋艺术</h1>
+            <div class="geometric-shape shape1"></div>
+            <div class="geometric-shape shape2"></div>
+        </header>
+        
+        <main class="main-content">
+            <p>先锋艺术挑战传统，打破界限，重新定义创造力与表达。通过解构和重组，我们创造出全新的视觉语言，引发思考与情感共鸣。</p>
+            <p>这个设计融合了未来主义的动感、达达主义的随机性以及构成主义的几何美学，创造出独特而富有表现力的视觉体验。</p>
+            <p>每一个元素都经过精心编排，形成一个动态的整体，挑战观者的感知和理解。</p>
+        </main>
+        
+        <div class="dada-collage">
+            <div class="dada-element"></div>
+            <div class="dada-element"></div>
+            <div class="dada-element"></div>
+        </div>
+        
+        <div class="interactive-panel">
+            <div class="glitch-text">AVANT-GARDE</div>
+        </div>
+        
+        <section class="constructivist-section">
+            <div class="constructivist-box">
+                <span>创新</span>
+            </div>
+            <div class="constructivist-box">
+                <span>突破</span>
+            </div>
+            <div class="constructivist-box">
+                <span>反叛</span>
+            </div>
+        </section>
+        
+        <footer class="futurist-footer">
+            <p>© 2025 先锋艺术探索</p>
+            <div class="social-icons">
+                <div class="social-icon">+</div>
+                <div class="social-icon">×</div>
+                <div class="social-icon">○</div>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        // 为互动面板添加点击效果
+        document.querySelector('.interactive-panel').addEventListener('click', function() {
+            this.style.backgroundColor = `rgb(${Math.random() * 255}, ${Math.random() * 55}, ${Math.random() * 155})`;
+        });
+        
+        // 为达达元素添加鼠标悬停效果
+        const dadaElements = document.querySelectorAll('.dada-element');
+        dadaElements.forEach(element => {
+            element.addEventListener('mouseover', function() {
+                this.style.transform = `rotate(${Math.random() * 360}deg) scale(${1 + Math.random()})`;
+            });
+            element.addEventListener('mouseout', function() {
+                this.style.transform = 'rotate(0deg) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
